@@ -8,7 +8,6 @@ def call(build, channel, teamDomain, credentialsId) {
     }
 }
 
-
 def getMessage(build, changeLog, failReason) {
     def message = "Project - ${env.JOB_NAME}, Status - ${build.result}\nCommits :\n${changeLog}"
     if (build.result == 'FAILURE') {
@@ -18,7 +17,8 @@ def getMessage(build, changeLog, failReason) {
 }
 
 def getMessage(build, changeLog) {
-    return "Project - ${env.JOB_NAME}, Build - ${env.BUILD_NUMBER}, Status - ${build.result}\nCommits :\n${changeLog}\n${build.description}"
+    def description = ${build.description} == null ? "" : ${build.description}
+    return "Project - ${env.JOB_NAME}, Build - ${env.BUILD_NUMBER}, Status - ${build.result}\nCommits :\n${changeLog}\n${description}"
 }
 
 def getColor(build) {

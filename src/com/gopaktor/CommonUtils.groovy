@@ -1,6 +1,4 @@
-package com.gopaktor
-
-def sendSlackNotification(build, channel, teamDomain, credentialsId) {
+def call(build, channel, teamDomain, credentialsId) {
     def changeLog = getChangeLog()
     def color = getColor(build)
     def slackMessage = getMessage(build, changeLog)
@@ -19,7 +17,8 @@ def getMessage(build, changeLog, failReason) {
 }
 
 def getMessage(build, changeLog) {
-    return "Project - ${env.JOB_NAME}, Status - ${build.result}\nCommits :\n${changeLog}"
+    def description = ${build.description} == null ? "" : ${build.description}
+    return "Project - ${env.JOB_NAME}, Build - ${env.BUILD_NUMBER}, Status - ${build.result}\nCommits :\n${changeLog}\n${description}"
 }
 
 def getColor(build) {

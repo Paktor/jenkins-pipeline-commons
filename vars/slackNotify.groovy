@@ -18,7 +18,7 @@ def getMessage(build, changeLog, failReason) {
 }
 
 def getMessage(build, changeLog) {
-    return "Project - ${env.JOB_NAME}, Build - ${env.BUILD_NUMBER}, Status - ${build.result}\nCommits :\n${changeLog}\n${build.description}"
+    return "Project - ${env.JOB_NAME}, Build - ${env.BUILD_NUMBER}, Status - ${build.result}\nCommits :\n${changeLog}\n${build.description ?: ''}"
 }
 
 def getColor(build) {

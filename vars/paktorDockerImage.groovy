@@ -7,11 +7,13 @@
 def call() {
     paktorCheckout scm
 
-  	ws (pwd() + "/docker-${env.JOB_NAME}") {
+    def imageName = (env.JOB_NAME =~ /docker-images\//).replaceFirst('')
+
+  	ws(pwd() + "/docker-${imageName}") {
 		def img
 
     	stage ('Build image') {
-        	img = docker.build "dr.gopaktor.com/paktor/${env.JOB_NAME}:${env.BUILD_NUMBER}"
+        	img = docker.build "dr.gopaktor.com/paktor/${imageName}:${env.BUILD_NUMBER}"
     	}
 
     	stage ('Publish image') {

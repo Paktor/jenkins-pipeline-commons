@@ -5,13 +5,13 @@
  *
  * @param scm
  */
-def call(dir, commands) {
+def call(commands) {
     try {
         docker.image('dr.gopaktor.com/paktor/build-image:latest').inside {
             paktorCheckout scm
 
             stage('Build artifact') {
-                ws(pwd() + "/${dir}") {
+                ws(pwd() + "/${env.JOB_NAME}") {
                     gradlew commands
                 }
             }

@@ -14,7 +14,7 @@ def call(commands, collectTests = false) {
         }
     } finally {
         if (collectTests) {
-            junit testResults: '**/build/test-results/test/TEST-*.xml', allowEmptyResults: true
+            junit testResults: '**/build/test-results/test/TEST-*.xml', allowEmptyResults: true, keepLongStdio: true
         }
     }
 }

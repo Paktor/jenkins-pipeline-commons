@@ -7,6 +7,8 @@
  */
 def call(scm) {
     stage('Checkout') {
+        step([$class: 'WsCleanup'])
+
         checkout([
                 $class: 'GitSCM',
                 branches: scm.branches,

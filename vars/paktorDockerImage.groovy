@@ -12,13 +12,19 @@ def call() {
   	ws(pwd() + "/docker-${imageName}") {
 		def img
 
+        def imgRepoName = "dr.gopaktor.com/paktor/${imageName}"
+
     	stage ('Build image') {
-        	img = docker.build "dr.gopaktor.com/paktor/${imageName}:${env.BUILD_NUMBER}"
+        	img = docker.build "${imgRepoName}:${env.BUILD_NUMBER}"
     	}
 
     	stage ('Publish image') {
   	    	img.push()
   	    	img.push('latest')
   	    }
+
+        stage ('Clean image') {
+            sh "docker rmi ${imgRepoName}"
+        }
   	}
 }

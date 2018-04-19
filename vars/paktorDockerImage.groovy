@@ -23,8 +23,8 @@ def call() {
   	    	img.push('latest')
   	    }
 
-        stage ('Clean image') {
-            sh "docker rmi ${imgRepoName}"
+        stage('Remove image') {
+            sh "docker rmi \$(docker images --filter=reference=${imgRepoName} -q) -f"
         }
-  	}
+    }
 }

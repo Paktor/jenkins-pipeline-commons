@@ -12,10 +12,10 @@ def call() {
   	ws(pwd() + "/docker-${imageName}") {
 		def img
 
-        def imgRepoName = "dr.gopaktor.com/paktor/${imageName}"
+        def fullImageName = "dr.gopaktor.com/paktor/${imageName}:${env.BUILD_NUMBER}"
 
     	stage ('Build image') {
-        	img = docker.build "${imgRepoName}:${env.BUILD_NUMBER}"
+            img = docker.build "${fullImageName}"
     	}
 
     	stage ('Publish image') {
@@ -23,8 +23,9 @@ def call() {
   	    	img.push('latest')
   	    }
 
-        stage('Remove image') {
-            sh "docker rmi \$(docker images --filter=reference=${imgRepoName} -q) -f"
+        stage ('Remove image') {
+            sh "docker rmi ${fullImageName}"
+            sh "docker image prune -f"
         }
     }
 }

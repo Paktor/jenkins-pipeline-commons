@@ -22,10 +22,5 @@ def call() {
   	    	img.push()
   	    	img.push('latest')
   	    }
-
-        stage ('Remove image') {
-            sh "docker rmi ${fullImageName}"
-            sh "docker image prune -f"
-        }
     }
 }

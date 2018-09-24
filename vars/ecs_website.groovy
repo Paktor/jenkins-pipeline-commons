@@ -1,7 +1,7 @@
 
 def call(spec) {
 
-    def aws_j = {c -> new groovy.json.JsonSlurper().parseText(aws(c) ?: '{}')}
+    def aws_j = {c -> readJSON(text: aws(c) ?: '{}')}
 
     def params = [:]
     spec.resolveStrategy = Closure.DELEGATE_FIRST

@@ -15,9 +15,11 @@ def call(spec) {
     def subnets = params.subnets.join(' ')
     def region = params.region ?: 'ap-southeast-1'
 
-    def services = aws("ecs list-services --cluster ${params.cluster} --region=${region}")
-    boolean found = services.tokenize("\n").find { it.find("${params.service}\$") } ?: false
+    def services = aws_j("ecs list-services --cluster ${params.cluster} --region=${region}")
+    boolean found = services.serviceArns?.find{ it.find("${params.service}\$") } ?: false
     if (!found) {
+        println "service ${params.service} not found... creating new one."
+
         // create a target group for the service to register targets
         def response = aws_j("elbv2 create-target-group --name ${params.service}-targets --protocol HTTP --port 80" +
                 " --vpc-id ${params.vpc} --region=${region}")

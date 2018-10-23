@@ -10,7 +10,13 @@ def call(actions) {
 
     buildImage.pull()
 
-    buildImage.inside('--cpu-period=100000 --cpu-quota=200000') {
-        actions.call()
+    withCredentials([
+        usernamePassword(credentialsId: 'artifactory-teamcity', usernameVariable: 'MAVEN_USER', passwordVariable: 'MAVEN_PASSWORD')
+    ]) {
+        buildImage.inside('--cpu-period=100000 --cpu-quota=200000') {
+            sh "docker login -u \$MAVEN_USER -p \$MAVEN_PASSWORD dr.gopaktor.com"
+
+            actions.call()
+        }
     }
 }

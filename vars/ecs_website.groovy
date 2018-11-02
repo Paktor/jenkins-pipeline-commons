@@ -21,13 +21,13 @@ def call(spec) {
         println "service ${params.service} not found... creating new one."
 
         // create a target group for the service to register targets
-        def response = aws_j("elbv2 create-target-group --name ${params.service}-targets --protocol HTTP --port 80" +
+        def response = aws_j("elbv2 create-target-group --name ${params.service} --protocol HTTP --port 80" +
                 " --vpc-id ${params.vpc} --region=${region}")
         def targetsArn = response.TargetGroups[0].TargetGroupArn
         println "created target group for ${params.service}: $targetsArn"
 
         // create a loadbalancer for this service
-        response = aws_j("elbv2 create-load-balancer --name ${params.service}-loadbalancer --subnets $subnets --region=${region}")
+        response = aws_j("elbv2 create-load-balancer --name ${params.service} --subnets $subnets --region=${region}")
         def loadBalancerArn = response.LoadBalancers[0].LoadBalancerArn
         println "created load balancer for ${params.service}: $loadBalancerArn"
 

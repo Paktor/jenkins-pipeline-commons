@@ -17,7 +17,7 @@ def call(spec) {
     def sg = params.sg.join(' ')
 
     def services = aws_j("ecs list-services --cluster ${params.cluster} --region=${region}")
-    boolean found = services.serviceArns?.find{ it.find("${params.service}\$") } ?: false
+    boolean found = services.serviceArns?.find{ it.find("\/${params.service}\$") } ?: false
     if (!found) {
         println "service ${params.service} not found... creating new one."
 

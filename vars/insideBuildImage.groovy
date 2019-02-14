@@ -6,7 +6,7 @@
  * @param scm
  */
 def call(actions) {
-    def buildImage = docker.image('dr.gopaktor.com/paktor/build-image:latest')
+    def buildImage = docker.image('dr.gopaktor.com/paktor/build-image:11-latest')
 
     buildImage.pull()
 

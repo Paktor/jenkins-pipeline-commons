@@ -7,12 +7,9 @@
  */
 def call(tag) {
 
-  sh 'git config --local credential.helper "!p() { echo username=\\$GIT_USERNAME; echo password=\\$GIT_PASSWORD; }; p"'
-
   sh "git tag -m 'master build: $tag' -a '$tag'"
-  withCredentials([
-    usernamePassword(credentialsId: 'github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')
-  ]) {
+
+  sshagent(['99cf5548-0170-462e-b900-bae5e26e56cd']) {
     sh "git push origin $tag"
   }
 }

@@ -7,7 +7,7 @@
  */
 def call(commands) {
     try {
-        docker.image('dr.gopaktor.com/paktor/build-image:latest').inside {
+        insideBuildImage {
             paktorCheckout scm
 
             stage('Build artifact') {

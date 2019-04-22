@@ -12,7 +12,11 @@ def call(scm) {
         checkout([
                 $class: 'GitSCM',
                 branches: scm.branches,
-                extensions: scm.extensions + [[$class: 'GitLFSPull'], [$class: 'SubmoduleOption', parentCredentials: true, recursiveSubmodules: true]],
+                extensions: scm.extensions + [
+                        [$class: 'GitLFSPull'], 
+                        [$class: 'SubmoduleOption', parentCredentials: true, recursiveSubmodules: true],
+                        [$class: 'CloneOption', timeout: 30]
+                ],
                 userRemoteConfigs: scm.userRemoteConfigs
         ])
     }

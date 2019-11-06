@@ -4,7 +4,7 @@
  * Build and publish docker image. Image name comes from jenkins job
  *
  */
-def call(repository = 'dr.gopaktor.com/paktor', region = 'ap-southeast-1') {
+def call(repository = 'dr.gopaktor.com/paktor') {
     paktorCheckout scm
 
     def imageName = (env.JOB_NAME =~ /docker-images\//).replaceFirst('')
@@ -12,15 +12,11 @@ def call(repository = 'dr.gopaktor.com/paktor', region = 'ap-southeast-1') {
   	ws(pwd() + "/docker-${imageName}") {
 		def img
 
-        def fullImageName = "${repository}/${imageName}:${env.BUILD_NUMBER}"
-
     	stage ('Build image') {
-            img = docker.build "${fullImageName}"
+            img = docker.build "${repository}/${imageName}:${env.BUILD_NUMBER}"
     	}
 
     	stage ('Publish image') {
-            aws_ecr_login("--no-include-email --region=$region")
-
   	    	img.push()
   	    	img.push('latest')
   	    }

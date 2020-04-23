@@ -7,7 +7,7 @@
 def call(regions = ['ap-southeast-1', 'us-west-1'], accountId = '373337940780') {
     paktorCheckout scm
 
-    def imageName = env.JOB_NAME
+    def imageName = (env.JOB_NAME =~ /\w+\/docker-([\-a-zA-Z0-9]+)\/\w+/).replaceFirst('$1')
 
     regions.each{ region ->
         stage("Build and publish image for $region") {
